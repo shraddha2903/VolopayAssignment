@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api")
@@ -22,15 +23,18 @@ public class UserController {
 
     //API 1
     @GetMapping("/total_items")
-    public Integer getTotalItems(@RequestParam Date start_date,@RequestParam Date end_date, String department)
+    public Integer getTotalItems(@RequestParam Date start_date,@RequestParam Date end_date, @RequestParam String department)
     {
         return userService.getTotalItem(start_date,end_date,department);
     }
 
     //API 2
 
-//    @GetMapping("//nth_most_total_item")
-
+    @GetMapping("//nth_most_total_item")
+    public String getNthMostSoldItem(@RequestParam String itemBY,@RequestParam Date start_date,@RequestParam Date end_date)
+    {
+        return userService.getNthMostSoldItem(itemBY,start_date,end_date);
+    }
 
 
 }

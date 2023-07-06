@@ -3,8 +3,7 @@ package com.example.volopay.Spring.Assignment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -38,5 +37,49 @@ public class UserService {
         }
         return totalItem;
 
+    }
+
+    public String getNthMostSoldItem(String itemBY, Date start_date, Date end_date)
+    {
+        HashMap<String,Integer> itemSoldFreq = new HashMap<>();
+
+        List<User> userList = userRepository.findAll();
+
+        if(itemBY.equals("quantity"))
+        {
+            for (User user1 : userList)
+            {
+                if (user1.getDate().compareTo(start_date) > 0 && user1.getDate().compareTo(end_date) < 0) {
+                    String softwareName = user1.getSoftware();
+                    int seats = user1.getSeats();
+                    itemSoldFreq.put(softwareName, itemSoldFreq.getOrDefault(softwareName, 0) + seats);
+                }
+            }
+
+            //sorting in descending order
+            List<Map.Entry<String, Integer>> sortedItems = new ArrayList<>(itemSoldFreq.entrySet());
+            sortedItems.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+
+            // 2nd most sold item in terms of quantity
+            return sortedItems.get(1).getKey();
+        }
+
+        //else
+
+        for (User user1 : userList)
+        {
+            if (user1.getDate().compareTo(start_date) > 0 && user1.getDate().compareTo(end_date) < 0) {
+                String softwareName = user1.getSoftware();
+                int amount = user1.getAmount();
+                itemSoldFreq.put(softwareName, itemSoldFreq.getOrDefault(softwareName, 0) + amount);
+            }
+        }
+
+        //sorting in descending order
+        List<Map.Entry<String, Integer>> sortedItems = new ArrayList<>(itemSoldFreq.entrySet());
+        sortedItems.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+
+        // e fourth most sold item in terms of Total price
+        return sortedItems.get(3).getKey();
     }
 }
