@@ -44,5 +44,13 @@ public class UserController {
         return userService.getDepatmentwiseSoldItemPerc(start_date,end_date);
     }
 
+    //API 4
+
+    @GetMapping("/monthly_sales")
+    public HashMap<Integer,Double> getMonthlySaleOfGivenYear(@RequestParam String year)
+    {
+        return  userService.getMonthlySale(year);
+    }
+
 
 }

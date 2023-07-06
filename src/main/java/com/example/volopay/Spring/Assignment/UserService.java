@@ -108,4 +108,20 @@ public class UserService {
         }
         return ans;
     }
+
+    public HashMap<Integer,Double> getMonthlySale(String year)
+    {
+        HashMap<Integer,Double> sale = new HashMap<>();
+        List<User> user = userRepository.findAll();
+        for(User u : user)
+        {
+            String u_year = String.valueOf(u.getDate().getYear());
+            if(u_year.equals(year))
+            {
+                int month = u.getDate().getMonth();
+                sale.put(month,sale.getOrDefault(month,0.0)+u.getAmount());
+            }
+        }
+        return sale;
+    }
 }
