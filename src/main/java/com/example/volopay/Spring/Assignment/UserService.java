@@ -82,4 +82,30 @@ public class UserService {
         // e fourth most sold item in terms of Total price
         return sortedItems.get(3).getKey();
     }
+
+    public HashMap<String,Double> getDepatmentwiseSoldItemPerc(Date start_date, Date end_date)
+    {
+        List<User> user = userRepository.findAll();
+
+        HashMap<String,Integer> depMap = new HashMap<>();
+        int totalSeats=0;
+
+        for (User u : user)
+        {
+            if(u.getDate().compareTo(start_date) > 0 && u.getDate().compareTo(end_date) < 0)
+            {
+                depMap.put(u.getDepartment(),depMap.getOrDefault(u.getDepartment(),0)+u.getSeats());
+                totalSeats+=u.getSeats();
+            }
+        }
+
+        HashMap<String,Double> ans = new HashMap<>();
+
+        for (Map.Entry<String,Integer> hm : depMap.entrySet())
+        {
+            Double perc = (hm.getValue()/totalSeats)*100.0;
+            ans.put(hm.getKey(),perc);
+        }
+        return ans;
+    }
 }

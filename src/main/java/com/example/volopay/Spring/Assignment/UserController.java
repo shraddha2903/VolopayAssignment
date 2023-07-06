@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -34,6 +35,13 @@ public class UserController {
     public String getNthMostSoldItem(@RequestParam String itemBY,@RequestParam Date start_date,@RequestParam Date end_date)
     {
         return userService.getNthMostSoldItem(itemBY,start_date,end_date);
+    }
+
+    //API 3
+    @GetMapping("/percentage_of_department_wise_sold_items")
+    public HashMap<String,Double> getDepatmentwiseSolditemPerc(@RequestParam Date start_date, @RequestParam Date end_date)
+    {
+        return userService.getDepatmentwiseSoldItemPerc(start_date,end_date);
     }
 
 
